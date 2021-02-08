@@ -16,3 +16,16 @@
 $router->get('/', function () use ($router) {
     return $router->app->version();
 });
+
+$router->group(['namespace' => 'Api'], function () use ($router) {
+    $router->group(['prefix' => 'product'], function () use ($router) {
+        $router->post('new', [
+            "as"    => 'product.create',
+            "uses"  => 'ProductsController@createProduct'
+        ]);
+        $router->get('all', [
+           "as"     => 'product.all',
+           "uses"   => 'ProductsController@getAllProducts'
+        ]);
+    });
+});
