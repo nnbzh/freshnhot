@@ -19,6 +19,10 @@ $router->get('/', function () use ($router) {
 
 $router->group(['namespace' => 'Api'], function () use ($router) {
     $router->group(['prefix' => 'product'], function () use ($router) {
+        $router->get('{id}/details', [
+            'as'    => 'product.details',
+            'uses'  => 'ProductController@getProductById;'
+        ]);
         $router->post('new', [
             "as"    => 'product.create',
             "uses"  => 'ProductsController@createProduct'
@@ -28,4 +32,20 @@ $router->group(['namespace' => 'Api'], function () use ($router) {
            "uses"   => 'ProductsController@getAllProducts'
         ]);
     });
+
+    $router->group(['prefix' => 'category'], function () use ($router) {
+        $router->get('{id}/details', [
+            'as'    => 'product.details',
+            'uses'  => 'CategoryController@getProductById;'
+        ]);
+        $router->post('new', [
+            "as"    => 'product.create',
+            "uses"  => 'CategoryController@createCategory'
+        ]);
+        $router->get('all', [
+            "as"     => 'product.all',
+            "uses"   => 'ProductsController@getAllProducts'
+        ]);
+    });
+
 });

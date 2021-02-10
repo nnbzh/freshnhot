@@ -32,6 +32,8 @@ class ProductRepository implements BaseRepositoryInterface
 
         $product->saveOrFail();
 
+        if (isset($data['category_id']) && $data['category_id'] != null) $product->categories()->attach($product->id);
+
         return $product;
     }
 
