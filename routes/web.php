@@ -17,35 +17,33 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
+
 $router->group(['namespace' => 'Api'], function () use ($router) {
-    $router->group(['prefix' => 'product'], function () use ($router) {
-        $router->get('{id}/details', [
-            'as'    => 'product.details',
-            'uses'  => 'ProductController@getProductById;'
-        ]);
-        $router->post('new', [
-            "as"    => 'product.create',
-            "uses"  => 'ProductsController@createProduct'
-        ]);
-        $router->get('all', [
-           "as"     => 'product.all',
-           "uses"   => 'ProductsController@getAllProducts'
-        ]);
+    $router->group(['middleware' => 'auth','prefix' => 'api'], function ($router)
+    {
+        $router->get('me', 'AuthController@me');
+        $router->post('logout', 'AuthController@logout');
     });
 
-    $router->group(['prefix' => 'category'], function () use ($router) {
-        $router->get('{id}/details', [
-            'as'    => 'product.details',
-            'uses'  => 'CategoryController@getProductById;'
-        ]);
-        $router->post('new', [
-            "as"    => 'product.create',
-            "uses"  => 'CategoryController@createCategory'
-        ]);
-        $router->get('all', [
-            "as"     => 'product.all',
-            "uses"   => 'ProductsController@getAllProducts'
-        ]);
+    $router->group(['prefix' => 'api'], function () use ($router)
+    {
+        $router->post('register', 'AuthController@register');
+        $router->post('login', 'AuthController@login');
+
+        $router->group(['prefix' => 'product'], function () use ($router) {
+            $router->get('{id}/details', 'ProductController@getProductById');
+            $router->post('new', 'ProductsController@createProduct');
+            $router->get('all', 'ProductsController@getAllProducts');
+        });
+
+        $router->group(['prefix' => 'category'], function () use ($router) {
+            $router->get('{id}/details', 'CategoryController@getProductById');
+            $router->post('new', 'CategoryController@createCategory');
+            $router->get('all', 'ProductsController@getAllProducts');
+        });
+
     });
+
+
 
 });
