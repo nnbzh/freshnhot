@@ -29,6 +29,7 @@ $router->group(['namespace' => 'Api'], function () use ($router) {
     {
         $router->post('register', 'AuthController@register');
         $router->post('login', 'AuthController@login');
+        $router->post('frontpad_test', 'FrontpadController@getProducts');
 
         $router->group(['prefix' => 'product'], function () use ($router) {
             $router->get('{id}/details', 'ProductController@getProductById');

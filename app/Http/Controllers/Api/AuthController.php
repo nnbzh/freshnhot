@@ -59,7 +59,7 @@ class AuthController extends Controller
      * Get a JWT via given credentials.
      *
      * @param  Request  $request
-     * @return Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function login(Request $request)
     {
@@ -81,7 +81,7 @@ class AuthController extends Controller
      * Get user details.
      *
      * @param  Request  $request
-     * @return Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function me()
     {
@@ -90,6 +90,6 @@ class AuthController extends Controller
 
     public function logout() {
         auth()->logout();
-        return response()->json("Logged out");
+        return response()->json(true);
     }
 }
