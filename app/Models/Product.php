@@ -12,6 +12,8 @@ class Product extends Model
 
     protected $hidden = ['created_at', 'updated_at'];
 
+    protected $fillable = ["vendor_code", "name", "price"];
+
     public function categories() {
         return $this->belongsToMany(Category::class, 'product_categories', 'category_id',
         'product_id')->using(Product::class);

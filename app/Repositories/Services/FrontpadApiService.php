@@ -4,6 +4,7 @@
 namespace App\Repositories\Services;
 
 
+use App\Models\Product;
 use GuzzleHttp\Client;
 
 
@@ -22,6 +23,32 @@ class FrontpadApiService
                 "secret" => env("FRONTPAD_API_KEY"),
             ]
         ])->getBody()->getContents());
+    }
+
+    public function syncWithProducts() {
+        $api_products = $this->getProducts();
+        foreach ($api_products->product_id as $index => $item) {
+            $product = Product::query()->where('vendor_code', $item);
+            if ($product->exists()) {
+                $product->update([
+                    "name"  => $api_products->name[$index],
+                    "price" => $api_products->price[$index]
+                ]);
+            } else {
+                try {
+                    $product->create(
+                        [
+                            "vendor_code"   => $item,
+                            "name"          => $api_products->name[$index],
+                            "price"         => $api_products->price[$index],
+                        ]
+                    )->saveOrFail();
+                } catch (\Throwable $e) {
+                    return ["error" => $e->getMessage()];
+                }
+            }
+        }
+        return true;
     }
 
     public function newOrder($data) {

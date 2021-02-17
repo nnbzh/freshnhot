@@ -20,7 +20,7 @@ class FrontpadController extends Controller
         try {
             return response()->json(
                 [
-                    "data" => $this->service->getProducts()
+                    "data" => $this->service->syncWithProducts()
                 ]
             );
         } catch (\Exception $exception) {
