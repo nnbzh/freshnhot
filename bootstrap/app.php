@@ -60,6 +60,7 @@ $app->singleton(
 */
 
 $app->configure('app');
+$app->configure('cors');
 
 /*
 |--------------------------------------------------------------------------
@@ -73,8 +74,7 @@ $app->configure('app');
 */
 
  $app->middleware([
-     \App\Http\Middleware\ExampleMiddleware::class,
-     \App\Http\Middleware\CorsMiddleware::class,
+     Fruitcake\Cors\HandleCors::class,
  ]);
 
  $app->routeMiddleware([
@@ -96,7 +96,8 @@ $app->register(App\Providers\AppServiceProvider::class);
 $app->register(App\Providers\EventServiceProvider::class);
 $app->register(Tymon\JWTAuth\Providers\LumenServiceProvider::class);
 $app->register(Chuckrincon\LumenConfigDiscover\DiscoverServiceProvider::class);
-$app->register(\App\Providers\CatchAllOptionsRequestsProvider::class);
+$app->register(Fruitcake\Cors\CorsServiceProvider::class);
+
 
 /*
 |--------------------------------------------------------------------------
