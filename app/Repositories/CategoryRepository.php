@@ -21,11 +21,7 @@ class CategoryRepository implements BaseRepositoryInterface
 
     public function create($data)
     {
-        $category = new Category();
-        $category->name = $data['name'];
-        $category->img_src = $data['img_src'];
-
-        $category->saveOrFail();
+        $category = Category::query()->updateOrCreate($data);
 
         return $category;
     }
@@ -37,6 +33,9 @@ class CategoryRepository implements BaseRepositoryInterface
 
     public function update($id, $data)
     {
-        // TODO: Implement update() method.
+        $category = Category::query()->findOrFail($id);
+        $category->update($data);
+
+        return $category;
     }
 }

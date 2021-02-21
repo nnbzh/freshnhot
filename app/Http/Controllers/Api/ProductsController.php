@@ -57,6 +57,43 @@ class ProductsController extends Controller
         }
     }
 
+    public function updateProduct($id, Request $request) {
+        try {
+            $product = $this->repository->update($id, $request->all());
 
+            return response()->json(
+                [
+                    "success"   => true,
+                    "data"      => $product
+                ]
+            );
+        } catch (\Exception $exception) {
+            return response()->json(
+                [
+                    "success"   => false,
+                    "message"   => $exception->getMessage()
+                ]
+            );
+        }
+    }
 
+    public function getProductById($id) {
+        try {
+            $product = $this->repository->get($id);
+
+            return response()->json(
+                [
+                    "success"   => true,
+                    "data"      => $product
+                ]
+            );
+        } catch (\Exception $exception) {
+            return response()->json(
+                [
+                    "success"   => false,
+                    "message"   => $exception->getMessage()
+                ]
+            );
+        }
+    }
 }

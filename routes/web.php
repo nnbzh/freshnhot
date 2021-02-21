@@ -14,33 +14,39 @@
 */
 
 $router->get('/', function () use ($router) {
-    return $router->app->version();
+    return "Welcome to Fresh and Hot";
 });
 
-
 $router->group(['namespace' => 'Api'], function () use ($router) {
-    $router->group(['middleware' => 'auth','prefix' => 'api'], function ($router)
-    {
-        $router->get('me', 'AuthController@me');
-        $router->post('logout', 'AuthController@logout');
-    });
-
     $router->group(['prefix' => 'api'], function () use ($router)
     {
-        $router->post('register', 'AuthController@register');
-        $router->post('login', 'AuthController@login');
-        $router->post('frontpad_test', 'FrontpadController@getProducts');
-
-        $router->group(['prefix' => 'product'], function () use ($router) {
-            $router->get('{id}/details', 'ProductController@getProductById');
-            $router->post('new', 'ProductsController@createProduct');
-            $router->get('all', 'ProductsController@getAllProducts');
+        $router->group(['middleware' => 'auth'], function ($router)
+        {
+            $router->get('me', 'AuthController@me');
+            $router->post('logout', 'AuthController@logout');
         });
 
-        $router->group(['prefix' => 'category'], function () use ($router) {
-            $router->get('{id}/details', 'CategoryController@getProductById');
-            $router->post('new', 'CategoryController@createCategory');
+        $router->post('register', 'AuthController@register');
+        $router->post('login', 'AuthController@login');
+
+        $router->group(['prefix' => 'products'], function () use ($router) {
+            $router->get('{id}/details', 'ProductsController@getProductById');
             $router->get('all', 'ProductsController@getAllProducts');
+
+            $router->group(['middleware' => 'auth'], function ($router) {
+                $router->post('sync', 'FrontpadController@synchronizeFrontpad');
+                $router->put('{id}/update', 'ProductController@updateProduct');
+                $router->post('new', 'ProductsController@createProduct');
+            });
+        });
+
+        $router->group(['prefix' => 'categories'], function () use ($router) {
+            $router->get('{id}/details', 'CategoryController@getCategoryById');
+            $router->get('all', 'CategoryController@getAllCategories');
+            $router->group(['middleware' => 'auth'], function ($router) {
+                $router->post('new', 'CategoryController@createCategory');
+                $router->put('{id}/update', 'CategoryController@updateCategory');
+            });
         });
 
     });

@@ -11,28 +11,26 @@ class ProductRepository implements BaseRepositoryInterface
 
     public function all()
     {
-        return Product::all()->toArray();
+        return Product::with('categories')->get()->toArray();
     }
 
     public function get($id)
     {
-        return Product::query()->findOrFail($id);
+        return Product::with('categories')->findOrFail($id);
     }
 
     public function create($data)
     {
-        $product                = new Product();
-        $product->name          = $data['name'];
-        $product->description   = $data['description'];
-        $product->img_src       = $data['img_src'];
-        $product->amount        = $data['amount'];
-        $product->calories      = $data['calories'];
-        $product->weight        = $data['weight'];
-        $product->price         = $data['price'];
+        $product_arr = $data;
+        unset($product_arr['category_id']);
 
-        $product->saveOrFail();
+        $product=Product::query()->updateOrCreate($product_arr);
 
-        if (isset($data['category_id']) && $data['category_id'] != null) $product->categories()->attach($product->id);
+        if (isset($data['category_id']) && $data['category_id'] != null) {
+            foreach ($data['category_id'] as $category_item) {
+                $product->categories()->attach($category_item);
+            }
+        }
 
         return $product;
     }

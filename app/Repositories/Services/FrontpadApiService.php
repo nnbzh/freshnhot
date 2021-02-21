@@ -31,8 +31,9 @@ class FrontpadApiService
             $product = Product::query()->where('vendor_code', $item);
             if ($product->exists()) {
                 $product->update([
-                    "name"  => $api_products->name[$index],
-                    "price" => $api_products->price[$index]
+                    "name"          => $api_products->name[$index],
+                    "price"         => $api_products->price[$index],
+                    "is_frontpad"   => true
                 ]);
             } else {
                 try {
@@ -41,6 +42,7 @@ class FrontpadApiService
                             "vendor_code"   => $item,
                             "name"          => $api_products->name[$index],
                             "price"         => $api_products->price[$index],
+                            "is_frontpad"   => true
                         ]
                     )->saveOrFail();
                 } catch (\Throwable $e) {

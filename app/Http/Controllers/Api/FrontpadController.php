@@ -16,17 +16,19 @@ class FrontpadController extends Controller
         $this->service = $service;
     }
 
-    public function getProducts() {
+    public function synchronizeFrontpad() {
         try {
             return response()->json(
                 [
-                    "data" => $this->service->syncWithProducts()
+                    "success"   => true,
+                    "data"      => $this->service->syncWithProducts()
                 ]
             );
         } catch (\Exception $exception) {
             return response()->json(
                 [
-                    "error" => $exception->getMessage()
+                    "success"   => false,
+                    "error"     => $exception->getMessage()
                 ]
             );
         }

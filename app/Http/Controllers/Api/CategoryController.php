@@ -23,8 +23,65 @@ class CategoryController extends Controller
 
             return response()->json(
                 [
-                    'success' => false,
+                    'success' => true,
                     'data' => $category
+                ]
+            );
+        } catch (\Exception $exception) {
+            return response()->json(
+                [
+                    'success' => false,
+                    'message' => $exception->getMessage()
+                ]
+            );
+        }
+    }
+
+    public function getAllCategories(Request $request) {
+        try {
+
+            return response()->json(
+                [
+                    'success' => true,
+                    'data' => $this->repository->all()
+                ]
+            );
+        } catch (\Exception $exception) {
+            return response()->json(
+                [
+                    'success' => false,
+                    'message' => $exception->getMessage()
+                ]
+            );
+        }
+    }
+
+    public function updateCategory($id, Request $request) {
+        try {
+
+            return response()->json(
+                [
+                    'success'   => true,
+                    'data'      => $this->repository->update($id, $request->all)
+                ]
+            );
+        } catch (\Exception $exception) {
+            return response()->json(
+                [
+                    'success' => false,
+                    'message' => $exception->getMessage()
+                ]
+            );
+        }
+    }
+
+    public function getCategoryById($id) {
+        try {
+
+            return response()->json(
+                [
+                    'success'   => false,
+                    'data'      => $this->repository->get($id)
                 ]
             );
         } catch (\Exception $exception) {
