@@ -35,7 +35,7 @@ $router->group(['namespace' => 'Api'], function () use ($router) {
 
             $router->group(['middleware' => 'auth'], function ($router) {
                 $router->post('sync', 'FrontpadController@synchronizeFrontpad');
-                $router->put('{id}/update', 'ProductController@updateProduct');
+                $router->put('{id}/update', 'ProductsController@updateProduct');
                 $router->post('new', 'ProductsController@createProduct');
             });
         });

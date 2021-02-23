@@ -14,12 +14,11 @@ class Product extends Model
 
     protected $fillable = ["vendor_code", "name", "price"];
 
-    public function categories() {
-        return $this->belongsToMany(Category::class, 'product_categories', 'category_id',
-        'product_id')->using(Product::class);
-    }
+   public function category() {
+       return $this->hasOne(Category::class, 'id', 'category_id');
+   }
 
-    public function sub_categories() {
-        return $this->hasMany(SubCategory::class, 'category_id', 'id');
+    public function sub() {
+        return $this->hasOne(SubCategory::class, 'id', 'sub_category_id');
     }
 }

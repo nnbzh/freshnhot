@@ -11,7 +11,7 @@ class ProductRepository implements BaseRepositoryInterface
 
     public function all()
     {
-        return Product::with('categories')->get()->toArray();
+        return Product::with(['category', 'sub'])->get()->toArray();
     }
 
     public function get($id)
@@ -21,18 +21,7 @@ class ProductRepository implements BaseRepositoryInterface
 
     public function create($data)
     {
-        $product_arr = $data;
-        unset($product_arr['category_id']);
 
-        $product=Product::query()->updateOrCreate($product_arr);
-
-        if (isset($data['category_id']) && $data['category_id'] != null) {
-            foreach ($data['category_id'] as $category_item) {
-                $product->categories()->attach($category_item);
-            }
-        }
-
-        return $product;
     }
 
     public function delete($id)
@@ -43,9 +32,13 @@ class ProductRepository implements BaseRepositoryInterface
         return $product;
     }
 
+    public function uploadImage() {
+
+    }
+
     public function update($id, $data)
     {
-        $product = Product::query()->findOrFail($id);
+        $product = Product::query()->where('id', $id);
         $product->update($data);
 
         return $product;

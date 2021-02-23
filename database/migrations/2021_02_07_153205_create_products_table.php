@@ -24,6 +24,9 @@ class CreateProductsTable extends Migration
             $table->decimal('price')->nullable(false);
             $table->string('img_src')->nullable(true);
             $table->boolean('is_frontpad')->default(false);
+            $table->foreignId('category_id')->nullable()->references('id')->on('categories')->onDelete('cascade');
+            $table->foreignId('sub_category_id')->nullable(true)->references('id')->on('sub_categories')->onDelete('cascade');
+            $table->unique(['id', 'category_id', 'sub_category_id']);
             $table->timestamps();
         });
     }
