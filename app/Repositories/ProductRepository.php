@@ -16,7 +16,7 @@ class ProductRepository implements BaseRepositoryInterface
 
     public function get($id)
     {
-        return Product::with('categories')->findOrFail($id);
+        return Product::with('category')->findOrFail($id);
     }
 
     public function create($data)

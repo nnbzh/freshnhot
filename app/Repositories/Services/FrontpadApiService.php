@@ -55,6 +55,12 @@ class FrontpadApiService
 
     public function newOrder($data) {
 
+        return json_decode($this->client->post('https://app.frontpad.ru/api/index.php?get_products', [
+            "form_params" => [
+                "secret" => env("FRONTPAD_API_KEY"),
+            ]
+        ])->getBody()->getContents());
+
     }
 
     public function getClient($data) {

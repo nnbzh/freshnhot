@@ -13,6 +13,10 @@ class Category extends Model
     protected $fillable = ['name', 'img_src'];
 
     public function subs() {
-        return $this->hasMany(SubCategory::class, 'id', 'category_id');
+        return $this->hasMany(SubCategory::class, 'category_id', 'id');
+    }
+
+    public function products() {
+        return $this->hasMany(Product::class, 'category_id', 'id');
     }
 }

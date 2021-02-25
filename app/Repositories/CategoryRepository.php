@@ -11,7 +11,7 @@ class CategoryRepository implements BaseRepositoryInterface
 
     public function all()
     {
-        return Category::all()->toArray();
+        return Category::with(['products', 'subs'])->get()->toArray();
     }
 
     public function get($id)

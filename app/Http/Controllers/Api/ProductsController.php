@@ -5,11 +5,10 @@ namespace App\Http\Controllers\Api;
 
 
 use App\Http\Controllers\Controller;
-use App\Models\Category;
 use App\Repositories\ProductRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
+use Illuminate\Support\Str;
 
 class ProductsController extends Controller
 {
@@ -28,6 +27,44 @@ class ProductsController extends Controller
                 [
                     "success"   => true,
                     "data"      => $products
+                ]
+            );
+        } catch (\Exception $exception) {
+            return response()->json(
+                [
+                    "success"   => false,
+                    "message"   => $exception->getMessage()
+                ]
+            );
+        }
+    }
+
+    public function uploadImage(Request $request) {
+        try {
+            $validation = Validator::make($request->all(), [
+                "image" => 'required|image|max:10000|mimes:jpeg,png,jpg,gif,svg'
+            ]);
+
+            if ($validation->fails()) {
+                return response()->json(
+                    [
+                        "success"   => false,
+                        "message"   => $validation->errors()
+                    ]
+                );
+            }
+            $random = Str::random(8);
+            if ($request->hasFile('image')) {
+                $image = $request->file('image');
+                $image_name = $random.'.jpg';
+                $destinationPath = base_path().'/public/images';
+                $image->move($destinationPath, $image_name);
+            }
+
+            return response()->json(
+                [
+                    "success"   => true,
+                    "data"      => "/images/".$random.'.jpg'
                 ]
             );
         } catch (\Exception $exception) {

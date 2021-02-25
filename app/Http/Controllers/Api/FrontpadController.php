@@ -33,4 +33,8 @@ class FrontpadController extends Controller
             );
         }
     }
+
+    public function createNewOrder() {
+
+    }
 }
