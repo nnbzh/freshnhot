@@ -42,6 +42,11 @@ $router->group(['namespace' => 'Api'], function () use ($router) {
         });
 
         $router->get('subcategories/all', 'SubCategoryController@getAllSubCategories');
+        $router->group(['middleware' => 'auth'], function ($router) {
+            $router->delete('subcategories/{sub_category_id}/delete', 'SubCategoryController@deleteSubcategory');
+            $router->put('subcategories/{sub_category_id}/update', 'SubCategoryController@updateSubcategory');
+        });
+
 
         $router->group(['prefix' => 'categories'], function () use ($router) {
             $router->get('{id}/details', 'CategoryController@getCategoryById');

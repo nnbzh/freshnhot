@@ -80,4 +80,44 @@ class SubCategoryController extends Controller
             );
         }
     }
+
+    public function deleteSubcategory($sub_category_id) {
+        try {
+            $subCategories = $this->repository->delete($sub_category_id);
+
+            return response()->json(
+                [
+                    "success"   => true,
+                    "data"      => $subCategories
+                ]
+            );
+        } catch (\Exception $exception) {
+            return response()->json(
+                [
+                    "success"   => false,
+                    "message"   => $exception->getMessage()
+                ]
+            );
+        }
+    }
+
+    public function updateSubcategory($category_id, Request $request) {
+        try {
+            $subCategories = $this->repository->update($category_id, $request->all());
+
+            return response()->json(
+                [
+                    "success"   => true,
+                    "data"      => $subCategories
+                ]
+            );
+        } catch (\Exception $exception) {
+            return response()->json(
+                [
+                    "success"   => false,
+                    "message"   => $exception->getMessage()
+                ]
+            );
+        }
+    }
 }

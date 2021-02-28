@@ -28,11 +28,17 @@ class SubCategoryRepository implements BaseRepositoryInterface
 
     public function delete($id)
     {
-        // TODO: Implement delete() method.
+        $category = SubCategory::query()->findOrFail($id);
+        $category->delete();
+
+        return $category;
     }
 
     public function update($id, $data)
     {
-        // TODO: Implement update() method.
+        $category = SubCategory::query()->findOrFail($id);
+        $category->update($data);
+
+        return $category;
     }
 }
