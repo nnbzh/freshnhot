@@ -51,7 +51,7 @@ $router->group(['namespace' => 'Api'], function () use ($router) {
                 $router->post('new', 'CategoryController@createCategory');
                 $router->put('{id}/update', 'CategoryController@updateCategory');
                 $router->delete('{id}/delete', 'CategoryController@deleteCategory');
-                $router->post('{category_id}/subcategories/new', 'SubCategoryController@createCategory');
+                $router->post('{category_id}/subcategories/new', 'SubCategoryController@createSubcategory');
             });
         });
 
