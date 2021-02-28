@@ -56,7 +56,7 @@ class ProductsController extends Controller
             $random = Str::random(8);
             if ($request->hasFile('image')) {
                 $image = $request->file('image');
-                $image_name = $random.'.jpg';
+                $image_name = $random.'.'.$request->file('image')->extension();;
                 $destinationPath = base_path().'/public/images';
                 $image->move($destinationPath, $image_name);
             }
