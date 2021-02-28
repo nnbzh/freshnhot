@@ -46,6 +46,7 @@ $router->group(['namespace' => 'Api'], function () use ($router) {
         $router->group(['prefix' => 'categories'], function () use ($router) {
             $router->get('{id}/details', 'CategoryController@getCategoryById');
             $router->get('{category_id}/subcategories', 'SubCategoryController@getSubCategoriesById');
+            $router->post('{category_id}/subcategories/new', 'SubCategoryController@getSubCategoriesById');
             $router->get('all', 'CategoryController@getAllCategories');
             $router->group(['middleware' => 'auth'], function ($router) {
                 $router->post('new', 'CategoryController@createCategory');

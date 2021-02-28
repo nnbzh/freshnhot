@@ -55,4 +55,24 @@ class SubCategoryController extends Controller
             );
         }
     }
+
+    public function createSubcategory($category_id) {
+        try {
+            $subCategories = $this->repository->create($category_id);
+
+            return response()->json(
+                [
+                    "success"   => true,
+                    "data"      => $subCategories
+                ]
+            );
+        } catch (\Exception $exception) {
+            return response()->json(
+                [
+                    "success"   => false,
+                    "message"   => $exception->getMessage()
+                ]
+            );
+        }
+    }
 }
