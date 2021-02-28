@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Repositories\CategoryRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class CategoryController extends Controller
 {
@@ -19,6 +20,19 @@ class CategoryController extends Controller
 
     public function createCategory(Request $request) {
         try {
+            $validation = Validator::make($request->all(),
+                [
+                    'name'              => 'required',
+                    'img_src'           => 'required'
+                ]
+            );
+
+            if ($validation->fails()) {
+                return [
+                    "success"   => false,
+                    "errors"    => $validation->errors()
+                ];
+            }
             $category = $this->repository->create($request->all());
 
             return response()->json(

@@ -11,12 +11,12 @@ class SubCategoryRepository implements BaseRepositoryInterface
 
     public function all()
     {
-        // TODO: Implement all() method.
+        return SubCategory::with('category')->get()->toArray();
     }
 
     public function get($id)
     {
-        // TODO: Implement get() method.
+        return SubCategory::query()->where('category_id', $id)->get()->toArray();
     }
 
     public function create($data)
