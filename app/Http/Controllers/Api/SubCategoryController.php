@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Repositories\SubCategoryRepository;
+use Illuminate\Http\Request;
 
 class SubCategoryController extends Controller
 {
@@ -56,9 +57,13 @@ class SubCategoryController extends Controller
         }
     }
 
-    public function createSubcategory($category_id) {
+    public function createSubcategory($category_id, Request $request) {
         try {
-            $subCategories = $this->repository->create($category_id);
+            $data = [
+                'category_id' => $category_id,
+                'name'        => $request->get('name')
+            ];
+            $subCategories = $this->repository->create($data);
 
             return response()->json(
                 [
