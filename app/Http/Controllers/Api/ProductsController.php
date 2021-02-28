@@ -54,25 +54,35 @@ class ProductsController extends Controller
                 );
             }
             $random = Str::random(8);
+            $extension = null;
             if ($request->hasFile('image')) {
+                $extension = $request->file('image')->extension();
                 $image = $request->file('image');
-                $image_name = $random.'.'.$request->file('image')->extension();;
+                $image_name = $random.'.'.$request->file('image')->extension();
                 $destinationPath = base_path().'/public/images';
                 $image->move($destinationPath, $image_name);
+
+                return response()->json(
+                    [
+                        "success"   => true,
+                        "data"      => "/images/".$random.'.'.$extension
+                    ]
+                );
+            } else {
+                return response()->json(
+                    [
+                        "success"   => false,
+                        "data"      => "Файл был загружен не правильно"
+                    ], 400, JSON_UNESCAPED_UNICODE
+                );
             }
 
-            return response()->json(
-                [
-                    "success"   => true,
-                    "data"      => "/images/".$random.'.jpg'
-                ]
-            );
         } catch (\Exception $exception) {
             return response()->json(
                 [
                     "success"   => false,
                     "message"   => $exception->getMessage()
-                ]
+                ], 500
             );
         }
     }
