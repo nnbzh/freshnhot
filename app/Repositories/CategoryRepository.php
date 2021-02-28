@@ -28,7 +28,10 @@ class CategoryRepository implements BaseRepositoryInterface
 
     public function delete($id)
     {
-        // TODO: Implement delete() method.
+        $category = Category::query()->findOrFail($id);
+        $category->delete();
+
+        return $category;
     }
 
     public function update($id, $data)

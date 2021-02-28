@@ -107,4 +107,24 @@ class CategoryController extends Controller
             );
         }
     }
+
+    public function deleteCategory($id) {
+        try {
+
+            return response()->json(
+                [
+                    'success'   => false,
+                    'data'      => $this->repository->delete($id)
+                ]
+            );
+        } catch (\Exception $exception) {
+            return response()->json(
+                [
+                    'success' => false,
+                    'message' => $exception->getMessage()
+                ]
+            );
+        }
+    }
+
 }
