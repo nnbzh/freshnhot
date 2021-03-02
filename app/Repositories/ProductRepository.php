@@ -46,7 +46,7 @@ class ProductRepository implements BaseRepositoryInterface
 
     public function updateStock($data) {
         foreach ($data as $index => $item) {
-            Product::query()->where('id', $item['product_id'])->update([
+            Product::query()->where('id', $item['id'])->update([
                 'in_stock' => $item['in_stock']
             ]);
         }
