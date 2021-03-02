@@ -38,6 +38,7 @@ $router->group(['namespace' => 'Api'], function () use ($router) {
                 $router->post('sync', 'FrontpadController@synchronizeFrontpad');
                 $router->put('{id}/update', 'ProductsController@updateProduct');
                 $router->post('new', 'ProductsController@createProduct');
+                $router->post('update_stock', 'ProductsController@updateStock');
             });
         });
 

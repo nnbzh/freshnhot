@@ -159,4 +159,24 @@ class ProductsController extends Controller
             );
         }
     }
+
+    public function updateStock(Request $request) {
+        try {
+            $product = $this->repository->updateStock($request->all());
+
+            return response()->json(
+                [
+                    "success"   => true,
+                    "data"      => $product
+                ]
+            );
+        } catch (\Exception $exception) {
+            return response()->json(
+                [
+                    "success"   => false,
+                    "message"   => $exception->getMessage()
+                ]
+            );
+        }
+    }
 }

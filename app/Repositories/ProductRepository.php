@@ -11,7 +11,7 @@ class ProductRepository implements BaseRepositoryInterface
 
     public function all()
     {
-        return Product::with(['category', 'sub'])->get()->toArray();
+        return Product::all()->toArray();
     }
 
     public function get($id)
@@ -42,5 +42,14 @@ class ProductRepository implements BaseRepositoryInterface
         $product->update($data);
 
         return $product;
+    }
+
+    public function updateStock($data) {
+        foreach ($data as $index => $item) {
+            Product::query()->where('id', $item['product_id'])->update([
+                'in_stock' => $item['in_stock']
+            ]);
+        }
+        return true;
     }
 }
