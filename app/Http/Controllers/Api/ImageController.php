@@ -108,4 +108,42 @@ class ImageController extends Controller
             );
         }
     }
+
+    public function getAllSliders(Request $request) {
+        try {
+           return response()->json(
+               [
+                   'success'    => true,
+                   'data'       => SliderImage::all()->toArray()
+               ]
+           );
+
+        } catch (\Exception $exception) {
+            return response()->json(
+                [
+                    "success"   => false,
+                    "message"   => $exception->getMessage()
+                ], 500
+            );
+        }
+    }
+
+    public function deleteSlider($id) {
+        try {
+            return response()->json(
+                [
+                    'success'    => true,
+                    'data'       => SliderImage::query()->where('id', $id)->delete()
+                ]
+            );
+
+        } catch (\Exception $exception) {
+            return response()->json(
+                [
+                    "success"   => false,
+                    "message"   => $exception->getMessage()
+                ], 500
+            );
+        }
+    }
 }
