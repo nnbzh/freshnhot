@@ -24,7 +24,8 @@ $router->group(['namespace' => 'Api'], function () use ($router) {
         {
             $router->get('me', 'AuthController@me');
             $router->post('logout', 'AuthController@logout');
-            $router->post('upload_image', 'ProductsController@uploadImage');
+            $router->post('upload_image', 'ImageController@uploadImage');
+            $router->post('upload_slider', 'ImageController@uploadImage');
         });
 
         $router->post('register', 'AuthController@register');
