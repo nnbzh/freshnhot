@@ -28,6 +28,8 @@ $router->group(['namespace' => 'Api'], function () use ($router) {
             $router->post('upload_slider', 'ImageController@uploadImage');
         });
 
+        $router->get('sliders', 'ImageController@getAllSliders');
+        $router->delete('sliders/{id}', 'ImageController@deleteSlider');
         $router->post('register', 'AuthController@register');
         $router->post('login', 'AuthController@login');
 
