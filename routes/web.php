@@ -25,11 +25,9 @@ $router->group(['namespace' => 'Api'], function () use ($router) {
             $router->get('me', 'AuthController@me');
             $router->post('logout', 'AuthController@logout');
             $router->post('upload_image', 'ImageController@uploadImage');
-            $router->post('upload_slider', 'ImageController@uploadImage');
         });
 
-        $router->get('sliders', 'ImageController@getAllSliders');
-        $router->delete('sliders/{id}', 'ImageController@deleteSlider');
+        $router->delete('delete_image', 'ImageController@deleteImage');
         $router->post('register', 'AuthController@register');
         $router->post('login', 'AuthController@login');
 
