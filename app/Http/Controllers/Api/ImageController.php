@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Image;
+use App\Models\Slider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
@@ -76,11 +77,67 @@ class ImageController extends Controller
                 );
             }
             $src = $request->get('img_src');
+            $slider = Slider::query()->where('img_src', $request->get('image_src'))->first();
+
+            if ($slider != null) {
+                $slider->delete();
+            }
 
             return response()->json(
                 [
                     'success'    => true,
-                    'data'       => unlink(base_path()."/public/$src")
+                    'data'       => unlink(base_path()."/public$src")
+                ]
+            );
+
+        } catch (\Exception $exception) {
+            return response()->json(
+                [
+                    "success"   => false,
+                    "message"   => $exception->getMessage()
+                ], 500
+            );
+        }
+    }
+
+    public function addSlider(Request $request) {
+        try {
+            $validation = Validator::make($request->all(), [
+                'img_src' => 'required'
+            ]);
+
+            if ($validation->fails()) {
+                return response()->json(
+                    [
+                        "success"   => false,
+                        "message"   => $validation->errors()
+                    ]
+                );
+            }
+
+            return response()->json(
+                [
+                    'success'    => true,
+                    'data'       => Slider::query()->updateOrCreate(['img_src' => $request->get('img_src')])
+                ]
+            );
+
+        } catch (\Exception $exception) {
+            return response()->json(
+                [
+                    "success"   => false,
+                    "message"   => $exception->getMessage()
+                ], 500
+            );
+        }
+    }
+
+    public function getSliders() {
+        try {
+            return response()->json(
+                [
+                    'success'    => true,
+                    'data'       => Slider::all()->toArray()
                 ]
             );
 

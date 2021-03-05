@@ -25,9 +25,34 @@ $router->group(['namespace' => 'Api'], function () use ($router) {
             $router->get('me', 'AuthController@me');
             $router->post('logout', 'AuthController@logout');
             $router->post('upload_image', 'ImageController@uploadImage');
+            $router->delete('delete_image', 'ImageController@deleteImage');
+            $router->get('sliders', 'ImageController@getSliders');
+            $router->post('sliders/new', 'ImageController@addSlider');
+            $router->delete('sliders/delete', 'ImageController@deleteSlider');
+
+            $router->group(['prefix' => 'events'], function () use ($router) {
+                $router->get('all', 'EventController@getAllEvents');
+                $router->get('{id}/details', 'EventController@getEventOrSale');
+                $router->get('sales', 'EventController@getAllSales');
+
+                $router->group(['middleware' => 'auth'], function ($router) {
+                        $router->post('new', 'EventController@createEventOrSale');
+                        $router->delete('{id}/delete', 'EventController@deleteEvent');
+                        $router->update('{id}/update', 'EventController@updateEvent');
+
+                });
+            });
+
+            $router->group(['prefix' => 'paragraphs'], function () use ($router) {
+                $router->group(['middleware' => 'auth'], function ($router) {
+                    $router->post('new', 'EventController@createParagraph');
+                    $router->delete('{id}/update', 'EventController@updateParagraph');
+                    $router->update('{id}/delete', 'EventController@deleteParagraph');
+
+                });
+            });
         });
 
-        $router->delete('delete_image', 'ImageController@deleteImage');
         $router->post('register', 'AuthController@register');
         $router->post('login', 'AuthController@login');
 
