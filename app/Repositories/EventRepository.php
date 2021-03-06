@@ -26,7 +26,7 @@ class EventRepository
 
     public function getEvent($id)
     {
-        return Event::with('paragraphs')->findOrFail('id', $id)->toArray();
+        return Event::with('paragraphs')->findOrFail($id)->toArray();
     }
 
     public function deleteEvent($id)
@@ -42,7 +42,7 @@ class EventRepository
 
     public function updateEvent($id, $data)
     {
-        return Event::query()->where($id, 'id')->update($data);
+        return Event::query()->where('id', $id)->update($data);
     }
 
     public function createParagraph($data)
@@ -52,15 +52,14 @@ class EventRepository
 
     public function updateParagraph($id, $data)
     {
-        return Paragraph::query()->where($id, 'id')->update($data);
+        return Paragraph::query()->where('id', $id)->updateOrCreate($data);
     }
 
     public function deleteParagraph($id)
     {
         $paragraph = Paragraph::query()->findOrFail($id);
-        $paragraph->delete();
 
-        return $paragraph;
+        return $paragraph->delete();
     }
 
 

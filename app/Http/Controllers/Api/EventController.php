@@ -22,9 +22,10 @@ class EventController extends Controller
         try {
             $validation = Validator::make($request->all(),
                 [
-                    'title'     => 'required|exists:events,id',
-                    'content'   => 'required',
-                    'type'      => 'required'
+                    'title'         => 'required',
+                    'img_src'       => 'required',
+                    'description'   => 'required',
+                    'type'          => 'required'
                 ]
             );
 

@@ -26,29 +26,8 @@ $router->group(['namespace' => 'Api'], function () use ($router) {
             $router->post('logout', 'AuthController@logout');
             $router->post('upload_image', 'ImageController@uploadImage');
             $router->delete('delete_image', 'ImageController@deleteImage');
-            $router->get('sliders', 'ImageController@getSliders');
             $router->post('sliders/new', 'ImageController@addSlider');
-            $router->delete('sliders/delete', 'ImageController@deleteSlider');
-
-            $router->group(['prefix' => 'events'], function () use ($router) {
-                $router->get('all', 'EventController@getAllEvents');
-                $router->get('{id}/details', 'EventController@getEvent');
-
-                $router->group(['middleware' => 'auth'], function ($router) {
-                        $router->post('new', 'EventController@createEventOrSale');
-                        $router->delete('{id}/delete', 'EventController@deleteEvent');
-                        $router->put('{id}/update', 'EventController@updateEvent');
-                });
-            });
-
-            $router->group(['prefix' => 'paragraphs'], function () use ($router) {
-                $router->group(['middleware' => 'auth'], function ($router) {
-                    $router->post('new', 'EventController@createParagraph');
-                    $router->delete('{id}/update', 'EventController@updateParagraph');
-                    $router->put('{id}/delete', 'EventController@deleteParagraph');
-
-                });
-            });
+            $router->get('sliders/all', 'ImageController@getSliders');
         });
 
         $router->post('register', 'AuthController@register');
@@ -67,6 +46,7 @@ $router->group(['namespace' => 'Api'], function () use ($router) {
         });
 
         $router->get('subcategories/all', 'SubCategoryController@getAllSubCategories');
+
         $router->group(['middleware' => 'auth'], function ($router) {
             $router->delete('subcategories/{sub_category_id}/delete', 'SubCategoryController@deleteSubcategory');
             $router->put('subcategories/{sub_category_id}/update', 'SubCategoryController@updateSubcategory');
@@ -85,8 +65,24 @@ $router->group(['namespace' => 'Api'], function () use ($router) {
             });
         });
 
+        $router->group(['prefix' => 'events'], function () use ($router) {
+            $router->get('all', 'EventController@getAllEvents');
+            $router->get('{id}/details', 'EventController@getEvent');
+
+            $router->group(['middleware' => 'auth'], function ($router) {
+                $router->post('new', 'EventController@addEvent');
+                $router->delete('{id}/delete', 'EventController@deleteEvent');
+                $router->put('{id}/update', 'EventController@updateEvent');
+
+            });
+        });
+
+        $router->group(['prefix' => 'paragraphs'], function () use ($router) {
+            $router->group(['middleware' => 'auth'], function ($router) {
+                $router->post('new', 'EventController@addParagraph');
+                $router->put('{id}/update', 'EventController@updateParagraph');
+                $router->delete('{id}/delete', 'EventController@deleteParagraph');
+            });
+        });
     });
-
-
-
 });

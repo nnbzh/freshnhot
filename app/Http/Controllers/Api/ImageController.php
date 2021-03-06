@@ -77,8 +77,8 @@ class ImageController extends Controller
                 );
             }
             $src = $request->get('img_src');
-            $slider = Slider::query()->where('img_src', $request->get('image_src'))->first();
-
+            $slider = Slider::query()->where('img_src', 'like', "%$src%")->first();
+            
             if ($slider != null) {
                 $slider->delete();
             }
