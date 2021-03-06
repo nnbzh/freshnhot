@@ -10,28 +10,39 @@ use App\Models\Paragraph;
 class EventRepository
 {
 
-    public function getEvents()
+    public function getEvents($type)
     {
-        return Event::query()->where('is_event', '=', true)->get()->toArray();
+        if ($type == 'all') {
+            return Event::all()->toArray();
+        }
+
+        return Event::query()->where('type', 'like', "%$type%");
     }
 
-    public function getSales()
+    public function createEvent($data)
     {
-        return Event::query()->where('is_event', '=', false)->get()->toArray();
+        return Event::query()->updateOrCreate($data);
     }
 
-    public function createEventOrSale($data)
+    public function getEvent($id)
     {
-        $event = Event::query()->updateOrCreate($data);
+        return Event::with('paragraphs')->findOrFail('id', $id)->toArray();
+    }
+
+    public function deleteEvent($id)
+    {
+        $event = Event::query()->findOrFail($id);
+        try {
+            $event->delete();
+        } catch (\Exception $e) {
+        }
 
         return $event;
     }
 
-    public function getEventOrSale($id)
+    public function updateEvent($id, $data)
     {
-        $event = Event::with('paragraphs')->findOrFail('id', $id)->toArray();
-
-        return $event;
+        return Event::query()->where($id, 'id')->update($data);
     }
 
     public function createParagraph($data)
@@ -39,22 +50,9 @@ class EventRepository
         return Paragraph::query()->updateOrCreate($data);
     }
 
-    public function deleteEvent($id)
-    {
-        $event = Event::query()->findOrFail($id);
-        $event->delete();
-
-        return $event;
-    }
-
     public function updateParagraph($id, $data)
     {
         return Paragraph::query()->where($id, 'id')->update($data);
-    }
-
-    public function updateEvent($id, $data)
-    {
-        return Event::query()->where($id, 'id')->update($data);
     }
 
     public function deleteParagraph($id)

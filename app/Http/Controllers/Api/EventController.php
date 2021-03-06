@@ -24,6 +24,7 @@ class EventController extends Controller
                 [
                     'title'     => 'required|exists:events,id',
                     'content'   => 'required',
+                    'type'      => 'required'
                 ]
             );
 
@@ -33,7 +34,7 @@ class EventController extends Controller
                     "errors"    => $validation->errors()
                 ];
             }
-            $event = $this->repository->createEventOrSale($request->all());
+            $event = $this->repository->createEvent($request->all());
 
             return response()->json(
                 [
@@ -71,9 +72,41 @@ class EventController extends Controller
         }
     }
 
-    public function getAllEvents() {
+    public function getAllEvents(Request $request)
+    {
         try {
-            $events = $this->repository->getEvents();
+            $validation = Validator::make($request->all(), [
+                'type' => 'required'
+            ]);
+
+            if ($validation->fails()) {
+                return [
+                    "success" => false,
+                    "errors" => $validation->errors()
+                ];
+            }
+
+            $events = $this->repository->getEvents($request->get('type'));
+
+            return response()->json(
+                [
+                    "success" => true,
+                    "data" => $events
+                ]
+            );
+        } catch (\Exception $exception) {
+            return response()->json(
+                [
+                    "success" => false,
+                    "message" => $exception->getMessage()
+                ]
+            );
+        }
+    }
+
+    public function getEvent($id) {
+        try {
+            $events = $this->repository->getEvent($id);
 
             return response()->json(
                 [
@@ -91,34 +124,12 @@ class EventController extends Controller
         }
     }
 
-    public function getAllSales() {
+    public function deleteEvent($id) {
         try {
-            $events = $this->repository->getSales();
-
             return response()->json(
                 [
                     "success"   => true,
-                    "data"      => $events
-                ]
-            );
-        } catch (\Exception $exception) {
-            return response()->json(
-                [
-                    "success"   => false,
-                    "message"   => $exception->getMessage()
-                ]
-            );
-        }
-    }
-
-    public function getEventOrSale($id) {
-        try {
-            $events = $this->repository->getEventOrSale($id);
-
-            return response()->json(
-                [
-                    "success"   => true,
-                    "data"      => $events
+                    "data"      => $this->repository->deleteEvent($id)
                 ]
             );
         } catch (\Exception $exception) {
@@ -153,24 +164,6 @@ class EventController extends Controller
                 [
                     "success"   => true,
                     "data"      => $event
-                ]
-            );
-        } catch (\Exception $exception) {
-            return response()->json(
-                [
-                    "success"   => false,
-                    "message"   => $exception->getMessage()
-                ]
-            );
-        }
-    }
-
-    public function deleteEvent($id) {
-        try {
-            return response()->json(
-                [
-                    "success"   => true,
-                    "data"      => $this->repository->deleteEvent($id)
                 ]
             );
         } catch (\Exception $exception) {

@@ -32,14 +32,12 @@ $router->group(['namespace' => 'Api'], function () use ($router) {
 
             $router->group(['prefix' => 'events'], function () use ($router) {
                 $router->get('all', 'EventController@getAllEvents');
-                $router->get('{id}/details', 'EventController@getEventOrSale');
-                $router->get('sales', 'EventController@getAllSales');
+                $router->get('{id}/details', 'EventController@getEvent');
 
                 $router->group(['middleware' => 'auth'], function ($router) {
                         $router->post('new', 'EventController@createEventOrSale');
                         $router->delete('{id}/delete', 'EventController@deleteEvent');
-                        $router->update('{id}/update', 'EventController@updateEvent');
-
+                        $router->put('{id}/update', 'EventController@updateEvent');
                 });
             });
 
@@ -47,7 +45,7 @@ $router->group(['namespace' => 'Api'], function () use ($router) {
                 $router->group(['middleware' => 'auth'], function ($router) {
                     $router->post('new', 'EventController@createParagraph');
                     $router->delete('{id}/update', 'EventController@updateParagraph');
-                    $router->update('{id}/delete', 'EventController@deleteParagraph');
+                    $router->put('{id}/delete', 'EventController@deleteParagraph');
 
                 });
             });
