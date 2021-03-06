@@ -28,6 +28,8 @@ $router->group(['namespace' => 'Api'], function () use ($router) {
             $router->delete('delete_image', 'ImageController@deleteImage');
             $router->post('sliders/new', 'ImageController@addSlider');
             $router->get('sliders/all', 'ImageController@getSliders');
+            $router->post('promocodes/generate', "PromoCodeController@generatePromoCode");
+            $router->get('promocodes/all', "PromoCodeController@getPromoCodes");
         });
 
         $router->post('register', 'AuthController@register');
