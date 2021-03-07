@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Api;
 
 
 use App\Repositories\PromoCodeRepository;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use Laravel\Lumen\Http\Request;
 
 class PromoCodeController
 {
