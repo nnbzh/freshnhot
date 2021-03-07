@@ -27,11 +27,12 @@ $router->group(['namespace' => 'Api'], function () use ($router) {
             $router->post('upload_image', 'ImageController@uploadImage');
             $router->delete('delete_image', 'ImageController@deleteImage');
             $router->post('sliders/new', 'ImageController@addSlider');
-            $router->get('sliders/all', 'ImageController@getSliders');
             $router->post('promocodes/generate', "PromoCodeController@generatePromoCode");
             $router->get('promocodes/all', "PromoCodeController@getPromoCodes");
+            $router->post('promocodes/new', "PromoCodeController@createPromoCode");
         });
 
+        $router->get('sliders/all', 'ImageController@getSliders');
         $router->post('register', 'AuthController@register');
         $router->post('login', 'AuthController@login');
 

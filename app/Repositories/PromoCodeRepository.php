@@ -23,4 +23,8 @@ class PromoCodeRepository
     public function getAllPromoCodes() {
         return PromoCode::all()->toArray();
     }
+
+    public function createPromoCode($code) {
+        return PromoCode::query()->updateOrCreate(['code' => $code]);
+    }
 }
