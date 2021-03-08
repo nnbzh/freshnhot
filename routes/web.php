@@ -25,7 +25,7 @@ $router->group(['namespace' => 'Api'], function () use ($router) {
             $router->get('me', 'AuthController@me');
             $router->post('logout', 'AuthController@logout');
             $router->post('upload_image', 'ImageController@uploadImage');
-            $router->delete('delete_image', 'ImageController@deleteImage');
+            $router->post('delete_image', 'ImageController@deleteImage');
             $router->post('sliders/new', 'ImageController@addSlider');
             $router->post('promocodes/generate', "PromoCodeController@generatePromoCode");
             $router->get('promocodes/all', "PromoCodeController@getPromoCodes");
