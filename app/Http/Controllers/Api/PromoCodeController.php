@@ -39,7 +39,8 @@ class PromoCodeController
     public function createPromoCode(Request $request) {
         try {
             $validation = Validator::make($request->all(), [
-                "code" => 'required|unique:promo_codes,code'
+                "code"  => 'required|unique:promo_codes,code',
+                "value" => 'gt:0|lt:100'
             ]);
 
             if ($validation->fails()) {
@@ -52,7 +53,7 @@ class PromoCodeController
             return response()->json(
                 [
                     "success"   => true,
-                    "data"      => $this->repository->createPromoCode($request->get('code'))
+                    "data"      => $this->repository->createPromoCode($request->all())
                 ]
             );
         } catch (\Exception $exception) {
@@ -72,6 +73,25 @@ class PromoCodeController
                 [
                     "success"   => true,
                     "data"      => $this->repository->getAllPromoCodes()
+                ]
+            );
+        } catch (\Exception $exception) {
+            return response()->json(
+                [
+                    "success"   => false,
+                    "message"   => $exception->getMessage()
+                ]
+            );
+        }
+    }
+
+    public function getPromoCode($code) {
+        try {
+
+            return response()->json(
+                [
+                    "success"   => true,
+                    "data"      => $this->repository->getPromoCode($code)
                 ]
             );
         } catch (\Exception $exception) {

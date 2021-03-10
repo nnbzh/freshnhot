@@ -33,6 +33,7 @@ $router->group(['namespace' => 'Api'], function () use ($router) {
         });
 
         $router->get('sliders/all', 'ImageController@getSliders');
+        $router->get('promocodes/{code}', 'PromoCodeController@getPromoCode');
         $router->post('register', 'AuthController@register');
         $router->post('login', 'AuthController@login');
 
