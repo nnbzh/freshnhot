@@ -20,15 +20,24 @@ class PromoCodeRepository
         return $this->generatePromoCode();
     }
 
-    public function getAllPromoCodes() {
+    public function getAllPromoCodes()
+    {
         return PromoCode::all()->toArray();
     }
 
-    public function createPromoCode($data) {
+    public function createPromoCode($data)
+    {
         return PromoCode::query()->updateOrCreate($data);
     }
 
-    public function getPromoCode($code) {
+    public function getPromoCode($code)
+    {
         return PromoCode::query()->where('code', 'like', "%$code%")->get()->toArray();
+    }
+
+    public function deletePromoCode($id)
+    {
+        $promo = PromoCode::query()->findOrFail($id);
+        return $promo->delete();
     }
 }

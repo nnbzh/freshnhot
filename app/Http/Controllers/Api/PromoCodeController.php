@@ -103,4 +103,22 @@ class PromoCodeController
             );
         }
     }
+    public function deletePromoCode($id) {
+        try {
+
+            return response()->json(
+                [
+                    "success"   => true,
+                    "data"      => $this->repository->getPromoCode($id)
+                ]
+            );
+        } catch (\Exception $exception) {
+            return response()->json(
+                [
+                    "success"   => false,
+                    "message"   => $exception->getMessage()
+                ]
+            );
+        }
+    }
 }
