@@ -109,7 +109,7 @@ class PromoCodeController
             return response()->json(
                 [
                     "success"   => true,
-                    "data"      => $this->repository->getPromoCode($id)
+                    "data"      => $this->repository->deletePromoCode($id)
                 ]
             );
         } catch (\Exception $exception) {
