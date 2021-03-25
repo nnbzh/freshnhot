@@ -14,7 +14,7 @@ class AddValueToPromoCodes extends Migration
     public function up()
     {
         Schema::table('promo_codes', function (Blueprint $table) {
-            $table->integer('value')->default(10);
+            $table->integer('value');
         });
     }
 
