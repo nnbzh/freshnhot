@@ -27,7 +27,11 @@ class PromoCodeRepository
 
     public function createPromoCode($data)
     {
-        return PromoCode::query()->updateOrCreate($data);
+        $promo = new PromoCode();
+        $promo->code = $data['code'];
+        $promo->value = $data['value'];
+        $promo->saveOrFail();
+        return $promo;
     }
 
     public function getPromoCode($code)
