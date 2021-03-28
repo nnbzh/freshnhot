@@ -30,6 +30,7 @@ $router->group(['namespace' => 'Api'], function () use ($router) {
             $router->post('promocodes/generate', "PromoCodeController@generatePromoCode");
             $router->get('promocodes/all', "PromoCodeController@getPromoCodes");
             $router->post('promocodes/new', "PromoCodeController@createPromoCode");
+            $router->delete('promocodes/{id}/delete', "PromoCodeController@deletePromoCode");
         });
 
         $router->get('sliders/all', 'ImageController@getSliders');

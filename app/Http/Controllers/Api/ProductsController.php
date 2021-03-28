@@ -62,8 +62,8 @@ class ProductsController extends Controller
         try {
             $validation = Validator::make($request->all(),
                 [
-                    'category_id'       => 'exists:categories,id',
-                    'sub_category_id'   => 'exists:sub_categories,id'
+                    'category_id'       => 'exists:categories,id|nullable',
+                    'sub_category_id'   => 'exists:sub_categories,id|nullable'
                 ]
             );
 

@@ -36,7 +36,7 @@ class PromoCodeRepository
 
     public function getPromoCode($code)
     {
-        return PromoCode::query()->where('code', 'like', "%$code%")->get()->toArray();
+        return PromoCode::query()->where('code', 'like', "$code")->firstOrFail()->toArray();
     }
 
     public function deletePromoCode($id)
