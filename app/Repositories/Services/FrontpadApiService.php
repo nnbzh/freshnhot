@@ -54,18 +54,27 @@ class FrontpadApiService
     }
 
     public function newOrder($data) {
-        $form_paramwes = [
-            "secret" => env("FRONTPAD_API_KEY"),
-            ""
-        ];
-        foreach ($data as $key => $item) {
-            $prod = ["$key"."[$item]" => "$item"];
+        $form_params = ["secret" => env("FRONTPAD_API_KEY")];
+
+        $products = $data['products'];
+        $counts = $data['counts'];
+
+        unset($data['products']);
+        unset($data['counts']);
+
+        foreach ($products as $key => $item) {
+            $form_params["product[$key]"] = $item;
+            $form_params["product_kol[$key]"] = $counts[$key];
         }
 
+
+        foreach ($data as $key => $item) {
+            $form_params[$key]=$item;
+        }
+
+
         return json_decode($this->client->post('https://app.frontpad.ru/api/index.php?new_order', [
-            "form_params" => [
-                "secret" => env("FRONTPAD_API_KEY"),
-            ]
+            "form_params" => $form_params
         ])->getBody()->getContents());
 
     }

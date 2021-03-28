@@ -31,6 +31,8 @@ $router->group(['namespace' => 'Api'], function () use ($router) {
             $router->get('promocodes/all', "PromoCodeController@getPromoCodes");
             $router->post('promocodes/new', "PromoCodeController@createPromoCode");
             $router->delete('promocodes/{id}/delete', "PromoCodeController@deletePromoCode");
+            $router->post('new_order', 'FrontpadController@createNewOrder');
+            $router->get('users', 'AuthController@users');
         });
 
         $router->get('sliders/all', 'ImageController@getSliders');

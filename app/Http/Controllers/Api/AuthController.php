@@ -92,4 +92,8 @@ class AuthController extends Controller
         auth()->logout();
         return response()->json(true);
     }
+
+    public function users() {
+        return User::all()->toArray();
+    }
 }

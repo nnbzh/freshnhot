@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Repositories\Services\FrontpadApiService;
+use Illuminate\Http\Request;
 
 class FrontpadController extends Controller
 {
@@ -34,7 +35,21 @@ class FrontpadController extends Controller
         }
     }
 
-    public function createNewOrder() {
-
+    public function createNewOrder(Request $request) {
+        try {
+            return response()->json(
+                [
+                    "success"   => true,
+                    "data"      => $this->service->newOrder($request->all())
+                ]
+            );
+        } catch (\Exception $exception) {
+            return response()->json(
+                [
+                    "success"   => false,
+                    "error"     => $exception->getMessage()
+                ]
+            );
+        }
     }
 }
